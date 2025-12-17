@@ -1,0 +1,41 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "npm: dev",
+            "type": "npm",
+            "script": "dev",
+            "isBackground": true,
+            "problemMatcher": [
+                {
+                    "pattern": [
+                        {
+                            "regexp": ".",
+                            "file": 1,
+                            "location": 2,
+                            "message": 3
+                        }
+                    ],
+                    "background": {
+                        "activeOnStart": true,
+                        "beginsPattern": "^  VITE",
+                        "endsPattern": "^  ➜  Local:"
+                    }
+                }
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            },
+            "group": "build"
+        },
+        {
+            "label": "terminate npm dev",
+            "type": "process",
+            "command": "${command:workbench.action.tasks.terminate}",
+            "args": [
+                "terminateAll"
+            ]
+        }
+    ]
+}

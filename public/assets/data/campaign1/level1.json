@@ -1,0 +1,82 @@
+{
+    "character": {
+        "position": {
+            "x": 100,
+            "y": 400
+        },
+        "texture": "swordsmanClassic",
+        "animations": [
+            {
+                "key": "walk",
+                "frameStart": 0,
+                "frameEnd": 7
+            },
+            {
+                "key": "attack",
+                "frameStart": 8,
+                "frameEnd": 15
+            },
+            {
+                "key": "jumpCrouch",
+                "frameStart": 16,
+                "frameEnd": 19
+            },
+            {
+                "key": "jumpJump",
+                "frameStart": 20,
+                "frameEnd": 23
+            },
+            {
+                "key": "jumpFall",
+                "frameStart": 24,
+                "frameEnd": 27
+            },
+            {
+                "key": "jumpLand",
+                "frameStart": 28,
+                "frameEnd": 31
+            },
+            {
+                "key": "crawl",
+                "frameStart": 32,
+                "frameEnd": 39
+            },
+            {
+                "key": "climb",
+                "frameStart": 40,
+                "frameEnd": 47
+            },
+            {
+                "key": "pick",
+                "frameStart": 48,
+                "frameEnd": 55
+            },
+            {
+                "key": "idle",
+                "frameStart": 56,
+                "frameEnd": 59
+            }
+        ]
+    },
+    "environment": [
+        {
+            "position": {
+                "x": 0,
+                "y": 450
+            },
+            "texture": "horizontalWall"
+        }
+    ],
+    "collectibles": [],
+    "enemies": [],
+    "objectives": {
+        "mainObjective": {
+            "type": "position",
+            "text": "Reach the right side of the screen",
+            "data": {
+                "x": 900
+            }
+        },
+        "secondaryObjective": null
+    }
+}
