@@ -23,20 +23,20 @@ export class TimelineManager {
     }
 
     loadAssets() {
-        this.scene.load.image('actionsBar', 'assets/level/ui/actionsBar.png');
-        this.scene.load.image('actionWalk', 'assets/level/actions/walk.png');
-        this.scene.load.image('actionJump', 'assets/level/actions/jump.png');
-        this.scene.load.image('actionAttack', 'assets/level/actions/attack.png');
-        this.scene.load.image('actionCrawl', 'assets/level/actions/crawl.png');
-        this.scene.load.image('actionClimb', 'assets/level/actions/climb.png');
-        this.scene.load.image('actionPick', 'assets/level/actions/pick.png');
+        this.scene.load.image('actionsBar', __ASSETS_BASE_PATH__ + 'level/ui/actionsBar.png');
+        this.scene.load.image('actionWalk', __ASSETS_BASE_PATH__ + 'level/actions/walk.png');
+        this.scene.load.image('actionJump', __ASSETS_BASE_PATH__ + 'level/actions/jump.png');
+        this.scene.load.image('actionAttack', __ASSETS_BASE_PATH__ + 'level/actions/attack.png');
+        this.scene.load.image('actionCrawl', __ASSETS_BASE_PATH__ + 'level/actions/crawl.png');
+        this.scene.load.image('actionClimb', __ASSETS_BASE_PATH__ + 'level/actions/climb.png');
+        this.scene.load.image('actionPick', __ASSETS_BASE_PATH__ + 'level/actions/pick.png');
         this.actionsNames.push('actionWalk');
         this.actionsNames.push('actionJump');
         this.actionsNames.push('actionAttack');
         this.actionsNames.push('actionCrawl');
         this.actionsNames.push('actionClimb');
         this.actionsNames.push('actionPick');
-        this.scene.load.image('timelineBar', 'assets/level/ui/timelineBar.png');
+        this.scene.load.image('timelineBar', __ASSETS_BASE_PATH__ + 'level/ui/timelineBar.png');
     }
 
     create(backgroundHeightY: number) {

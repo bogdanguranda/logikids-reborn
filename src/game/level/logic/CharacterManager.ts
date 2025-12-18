@@ -10,7 +10,7 @@ export class CharacterManager {
     }
 
     loadAssets() {
-        this.scene.load.atlas('swordsmanClassic', 'assets/level/character/swordsmanClassic.png', 'assets/level/character/swordsmanClassic.json');
+        this.scene.load.atlas('swordsmanClassic', __ASSETS_BASE_PATH__ + 'level/character/swordsmanClassic.png', __ASSETS_BASE_PATH__ + 'level/character/swordsmanClassic.json');
     }
 
     create(characterData: any) {

@@ -17,14 +17,14 @@ export class EnvironmentManager {
     }
 
     loadAssets() {
-        this.scene.load.image('treasure', 'assets/level/objects/treasure.png');
-        this.scene.load.atlas('coin', 'assets/level/objects/coin.png', 'assets/level/objects/coin.json');
-        this.scene.load.image('dummy', 'assets/level/objects/dummy.png');
-        this.scene.load.image('horizontalWall', 'assets/level/objects/horizontalWall.png');
-        this.scene.load.image('verticalWall', 'assets/level/objects/verticalWall.png');
-        this.scene.load.image('obstacle', 'assets/level/objects/obstacle.png');
-        this.scene.load.image('gate', 'assets/level/objects/gate.png');
-        this.scene.load.image('ladder', 'assets/level/objects/ladder.png');
+        this.scene.load.image('treasure', __ASSETS_BASE_PATH__ + 'level/objects/treasure.png');
+        this.scene.load.atlas('coin', __ASSETS_BASE_PATH__ + 'level/objects/coin.png', __ASSETS_BASE_PATH__ + 'level/objects/coin.json');
+        this.scene.load.image('dummy', __ASSETS_BASE_PATH__ + 'level/objects/dummy.png');
+        this.scene.load.image('horizontalWall', __ASSETS_BASE_PATH__ + 'level/objects/horizontalWall.png');
+        this.scene.load.image('verticalWall', __ASSETS_BASE_PATH__ + 'level/objects/verticalWall.png');
+        this.scene.load.image('obstacle', __ASSETS_BASE_PATH__ + 'level/objects/obstacle.png');
+        this.scene.load.image('gate', __ASSETS_BASE_PATH__ + 'level/objects/gate.png');
+        this.scene.load.image('ladder', __ASSETS_BASE_PATH__ + 'level/objects/ladder.png');
     }
 
     create(jsonLevelData: any) {

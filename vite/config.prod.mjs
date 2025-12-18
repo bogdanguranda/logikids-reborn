@@ -10,15 +10,18 @@ const phasermsg = () => {
             const line = "---------------------------------------------------------";
             const msg = `❤️❤️❤️ Tell us about your game! - games@phaser.io ❤️❤️❤️`;
             process.stdout.write(`${line}\n${msg}\n${line}\n`);
-            
+
             process.stdout.write(`✨ Done ✨\n`);
         }
     }
-}   
+}
 
 export default defineConfig({
-    base: './',
+    base: '/coding/bachelors-thesis/play/',
     logLevel: 'warning',
+    define: {
+        __ASSETS_BASE_PATH__: JSON.stringify('/assets/coding/bachelors-thesis/play/assets/')
+    },
     build: {
         rollupOptions: {
             output: {

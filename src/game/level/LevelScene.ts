@@ -40,7 +40,7 @@ export class LevelScene extends Scene {
         this.campaignNumber = levelInfo.campaignNumber;
         this.levelNumber = levelInfo.levelNumber;
         this.levelFileAssetName = 'campaign' + this.campaignNumber + 'Level' + this.levelNumber;
-        this.levelFilePath = 'assets/data/campaign' + this.campaignNumber + '/level' + this.levelNumber + '.json';
+        this.levelFilePath = __ASSETS_BASE_PATH__ + 'data/campaign' + this.campaignNumber + '/level' + this.levelNumber + '.json';
 
         this.uiManager = new UIManager(this);
         this.environmentManager = new EnvironmentManager(this);
@@ -51,7 +51,7 @@ export class LevelScene extends Scene {
 
     preload() {
         this.load.json(this.levelFileAssetName, this.levelFilePath);
-        this.load.image('levelBackground', 'assets/level/background.png');
+        this.load.image('levelBackground', __ASSETS_BASE_PATH__ + 'level/background.png');
         this.uiManager.loadAssets();
         this.environmentManager.loadAssets();
         this.characterManager.loadAssets();

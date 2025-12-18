@@ -14,8 +14,8 @@ export class UIManager {
     }
 
     loadAssets() {
-        this.scene.load.image('btnReady', 'assets/level/ui/btnReady.png');
-        this.scene.load.image('btnReset', 'assets/level/ui/btnReset.png');
+        this.scene.load.image('btnReady', __ASSETS_BASE_PATH__ + 'level/ui/btnReady.png');
+        this.scene.load.image('btnReset', __ASSETS_BASE_PATH__ + 'level/ui/btnReset.png');
     }
 
     create(levelScene: LevelScene) {
