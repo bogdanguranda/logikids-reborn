@@ -17,10 +17,12 @@ export class EnvironmentManager {
     }
 
     loadAssets() {
+        this.scene.load.image('treasure', 'assets/level/objects/treasure.png');
         this.scene.load.atlas('coin', 'assets/level/objects/coin.png', 'assets/level/objects/coin.json');
         this.scene.load.image('dummy', 'assets/level/objects/dummy.png');
         this.scene.load.image('horizontalWall', 'assets/level/objects/horizontalWall.png');
         this.scene.load.image('verticalWall', 'assets/level/objects/verticalWall.png');
+        this.scene.load.image('obstacle', 'assets/level/objects/obstacle.png');
         this.scene.load.image('gate', 'assets/level/objects/gate.png');
         this.scene.load.image('ladder', 'assets/level/objects/ladder.png');
     }
@@ -40,30 +42,30 @@ export class EnvironmentManager {
             }
         }
         const collectibles = jsonLevelData.collectibles;
-        for (const keyC in collectibles) {
-            if (collectibles.hasOwnProperty(keyC)) {
-                const itemInfoC = collectibles[keyC];
-                const itemC = new AnimatedEntity(this.scene, itemInfoC.position.x, itemInfoC.position.y, itemInfoC.texture, itemInfoC.animations);
-                this.scene.physics.add.existing(itemC);
-                const bodyC = itemC.body as Phaser.Physics.Arcade.Body;
-                bodyC.setCollideWorldBounds(true);
-                bodyC.setImmovable(true);
-                bodyC.moves = false;
-                itemC.play('standing');
-                this.collectibles.push(itemC);
+        for (const key in collectibles) {
+            if (collectibles.hasOwnProperty(key)) {
+                const itemInfo = collectibles[key];
+                const item = new AnimatedEntity(this.scene, itemInfo.position.x, itemInfo.position.y, itemInfo.texture, itemInfo.animations);
+                this.scene.physics.add.existing(item);
+                const body = item.body as Phaser.Physics.Arcade.Body;
+                body.setCollideWorldBounds(true);
+                body.setImmovable(true);
+                body.moves = false;
+                item.play('standing');
+                this.collectibles.push(item);
             }
         }
         const enemies = jsonLevelData.enemies;
         for (const keyE in enemies) {
             if (enemies.hasOwnProperty(keyE)) {
-                const itemInfoE = enemies[keyE];
-                const itemE = new Enemy(this.scene, itemInfoE.position.x, itemInfoE.position.y, itemInfoE.texture, itemInfoE.animations, itemInfoE.damage);
-                this.scene.physics.add.existing(itemE);
-                const bodyE = itemE.body as Phaser.Physics.Arcade.Body;
-                bodyE.setCollideWorldBounds(true);
-                bodyE.setImmovable(true);
-                bodyE.moves = false;
-                this.enemies.push(itemE);
+                const itemInfo = enemies[keyE];
+                const item = new Enemy(this.scene, itemInfo.position.x, itemInfo.position.y, itemInfo.texture, itemInfo.animations, itemInfo.damage);
+                this.scene.physics.add.existing(item);
+                const body = item.body as Phaser.Physics.Arcade.Body;
+                body.setCollideWorldBounds(true);
+                body.setImmovable(true);
+                body.moves = false;
+                this.enemies.push(item);
             }
         }
     }

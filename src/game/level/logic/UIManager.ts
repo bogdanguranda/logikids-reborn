@@ -3,10 +3,11 @@ import { LevelScene } from '../LevelScene';
 export class UIManager {
     scene: LevelScene;
     btnReady!: Phaser.GameObjects.Sprite;
-    btnReadyText!: Phaser.GameObjects.Text;
+    btnReset!: Phaser.GameObjects.Sprite;
     mainObjectiveReachedText: Phaser.GameObjects.Text | null = null;
     secondaryObjectiveReachedText: Phaser.GameObjects.Text | null = null;
     background!: Phaser.GameObjects.Sprite;
+    levelText!: Phaser.GameObjects.Text;
 
     constructor(scene: LevelScene) {
         this.scene = scene;
@@ -14,33 +15,48 @@ export class UIManager {
 
     loadAssets() {
         this.scene.load.image('btnReady', 'assets/level/ui/btnReady.png');
+        this.scene.load.image('btnReset', 'assets/level/ui/btnReset.png');
     }
 
     create(levelScene: LevelScene) {
         this.background = levelScene.background;
+        this.levelText = this.scene.add.text(this.background.width - 150, 10, 'Level ' + levelScene.levelNumber, {
+            font: '24px ' + this.scene.customConfigurations.ui.fontFamily,
+            color: '#000000'
+        });
         this.btnReady = this.scene.add.sprite(levelScene.background.width / 2, 50, 'btnReady');
         this.btnReady.setOrigin(0.5, 0.5);
         this.btnReady.setScale(0.5, 0.5);
         this.btnReady.setInteractive();
         this.btnReady.on('pointerdown', () => {
-            if (!levelScene.timelineManager.timeline.hasStarted()) {
-                levelScene.timelineManager.timeline.startExecution();
-                this.btnReadyText.setText('Restart');
-                levelScene.timelineManager.disableActions();
-            } else {
-                this.btnReadyText.setText('Start');
-                this.cleanUp();
-                this.scene.scene.restart({
-                    campaignNumber: levelScene.campaignNumber,
-                    levelNumber: levelScene.levelNumber
-                });
-            }
+            levelScene.timelineManager.timeline.startExecution();
+            levelScene.timelineManager.disableActions();
+            this.btnReady.setActive(false);
+            this.btnReset.setActive(true);
+            this.btnReset.setVisible(true);
+            this.btnReady.setVisible(false);
+
         });
         this.scene.physics.add.existing(this.btnReady);
-        this.btnReadyText = this.scene.add.text(this.btnReady.x, this.btnReady.y, 'Start', {
-            font: '24px ' + this.scene.customConfigurations.ui.fontFamily, color: '#ffffff'
+
+        this.btnReset = this.scene.add.sprite(levelScene.background.width / 2, 50, 'btnReset');
+        this.btnReset.setOrigin(0.5, 0.5);
+        this.btnReset.setScale(0.5, 0.5);
+        this.btnReset.setInteractive();
+        this.btnReset.on('pointerdown', () => {
+            this.cleanUp();
+            this.scene.scene.restart({
+                campaignNumber: levelScene.campaignNumber,
+                levelNumber: levelScene.levelNumber
+            });
+            this.btnReady.setActive(true);
+            this.btnReset.setActive(false);
+            this.btnReset.setVisible(false);
+            this.btnReady.setVisible(true);
         });
-        this.btnReadyText.setOrigin(0.5, 0.5);
+        this.scene.physics.add.existing(this.btnReset);
+        this.btnReset.setActive(false);
+        this.btnReset.setVisible(false);
     }
 
     displayFinish(isMainObjectiveReached: boolean, isSecondaryObjectiveReached: boolean) {
@@ -70,7 +86,8 @@ export class UIManager {
 
     cleanUp() {
         this.scene.resourceUtil.cleanUp(this.btnReady);
-        this.scene.resourceUtil.cleanUp(this.btnReadyText);
+        this.scene.resourceUtil.cleanUp(this.btnReset);
+        this.scene.resourceUtil.cleanUp(this.levelText);
         if (this.mainObjectiveReachedText != null) {
             this.scene.resourceUtil.cleanUp(this.mainObjectiveReachedText);
         }

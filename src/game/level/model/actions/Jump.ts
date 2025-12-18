@@ -20,12 +20,14 @@ export class Jump extends Action {
         super(scene, name, sprite, isModel);
         this.distanceY = distanceY;
         this.distanceX = distanceX;
-        this.defaultVelocityX = this.distanceX;
-        this.defaultVelocityY = -this.distanceY;
-        this.remainingTime = this.defaultVelocityX / this.defaultVelocityX;
+        this.remainingTime = this.distanceX / this.distanceX; // This is always 1, representing 1 second total jump time
         this.jumpTime = this.remainingTime - (1 / 4) * this.remainingTime;
         this.fallingTime = this.jumpTime - (1 / 3) * this.jumpTime;
         this.landingTime = this.fallingTime - (2 / 3) * this.fallingTime;
+        // Calculate horizontal velocity to travel exactly distanceX during the moving phases
+        const movingTime = this.jumpTime - this.landingTime;
+        this.defaultVelocityX = this.distanceX / movingTime;
+        this.defaultVelocityY = -this.distanceY;
         this.isJumping = false;
         this.isFalling = false;
         this.hasLanded = false;

@@ -66,18 +66,93 @@ export class LevelScene extends Scene {
         this.characterManager.create(jsonLevelData.character);
         this.objectivesManager.create(jsonLevelData);
         this.uiManager.create(this);
+
+        this.setupCollisions();
+    }
+
+    setupCollisions() {
+        const character = this.characterManager.character;
+
+        // Character collides with environment (walls, platforms, etc.)
+        this.environmentManager.environment.forEach(envObject => {
+            this.physics.add.collider(character, envObject);
+        });
+
+        // Character collides with actions bar
+        this.physics.add.collider(character, this.timelineManager.actionsBar);
+
+        // Character overlaps with collectibles (for picking up)
+        this.physics.add.overlap(
+            character,
+            this.environmentManager.collectibles,
+            this.handleCollectibleOverlap as Phaser.Types.Physics.Arcade.ArcadePhysicsCallback,
+            undefined,
+            this
+        );
+
+        // Character overlaps with enemies (for combat)
+        this.physics.add.overlap(
+            character,
+            this.environmentManager.enemies,
+            this.handleEnemyOverlap as Phaser.Types.Physics.Arcade.ArcadePhysicsCallback,
+            undefined,
+            this
+        );
+    }
+
+    handleCollectibleOverlap(character: Phaser.GameObjects.GameObject, collectible: Phaser.GameObjects.GameObject) {
+        if (!this.timelineManager.timeline.hasStarted()) return;
+
+        const currentAction = this.timelineManager.timeline.actions[this.timelineManager.timeline.currentActionIndex];
+        if (currentAction && currentAction.name === 'actionPick') {
+            const charEntity = character as any;
+            const collectibleKey = (collectible as Phaser.GameObjects.Sprite).texture.key;
+            charEntity.inventory.push(collectibleKey);
+            collectible.destroy();
+
+            // Remove from collectibles array
+            const index = this.environmentManager.collectibles.indexOf(collectible as any);
+            if (index > -1) {
+                this.environmentManager.collectibles.splice(index, 1);
+            }
+
+            // Check if treasure was collected
+            if (collectibleKey === 'treasure') {
+                // Stop the timeline execution
+                this.timelineManager.timeline.stopExecution();
+
+                // Auto-advance to next level after 3 seconds
+                if (this.levelNumber < 3) {
+                    this.time.delayedCall(1500, () => {
+                        this.scene.restart({ campaignNumber: this.campaignNumber, levelNumber: this.levelNumber + 1 });
+                    });
+                }
+            }
+        }
+    }
+
+    handleEnemyOverlap(character: Phaser.GameObjects.GameObject, enemy: Phaser.GameObjects.GameObject) {
+        if (!this.timelineManager.timeline.hasStarted()) return;
+
+        const currentAction = this.timelineManager.timeline.actions[this.timelineManager.timeline.currentActionIndex];
+        if (currentAction && currentAction.name === 'actionAttack') {
+            const charEntity = character as any;
+            charEntity.enemiesKilled.push((enemy as any).name);
+            enemy.destroy();
+
+            // Remove from enemies array
+            const index = this.environmentManager.enemies.indexOf(enemy as any);
+            if (index > -1) {
+                this.environmentManager.enemies.splice(index, 1);
+            }
+        }
     }
 
     update() {
-        this.physics.world.collide(this.characterManager.character, this.timelineManager.actionsBar);
+        // Collisions are now handled by physics.add.collider() and physics.add.overlap() set up in create()
         if (this.timelineManager.timeline.hasStarted()) {
             this.timelineManager.timeline.updateExecution(this.characterManager.character);
-            this.characterManager.updateCharacter(
-                this.environmentManager.environment,
-                this.environmentManager.collectibles,
-                this.environmentManager.enemies,
-                this.timelineManager.timeline
-            );
+
             if (this.timelineManager.timeline.hasFinished()) {
                 this.uiManager.displayFinish(
                     this.objectivesManager.isMainObjectiveReached(this.characterManager.character),

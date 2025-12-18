@@ -11,10 +11,10 @@ export class Timeline {
         this.scene = scene;
         this.actions = [];
         this.currentActionIndex = -1;
-        this.actionsStartingX = 200;
+        this.actionsStartingX = 35;
         this.actionsStartingY = actionsStartingY;
-        this.actionsSpacingX = 10;
-        this.actionsWidth = 70.0;
+        this.actionsSpacingX = 40;
+        this.actionsWidth = 60;
     }
 
     hasStarted() {
@@ -25,15 +25,20 @@ export class Timeline {
         return this.currentActionIndex >= this.actions.length;
     }
 
-    isRunning() {
-        return this.hasStarted() && !this.hasFinished();
+    stopExecution() {
+        this.currentActionIndex = this.actions.length;
     }
 
     startExecution() {
+        if (this.actions.length === 0) {
+            return;
+        }
         this.currentActionIndex++;
     }
 
     updateExecution(character: any) {
+        if (this.currentActionIndex >= this.actions.length) return;
+
         // In Phaser 3, we update body size based on current frame if available
         if (character.frame) {
             const body = character.body as Phaser.Physics.Arcade.Body;

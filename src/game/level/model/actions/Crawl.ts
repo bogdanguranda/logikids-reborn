@@ -18,17 +18,16 @@ export class Crawl extends Action {
     update(character: any) {
         if (!this.started) {
             this.animation = character.play('crawl');
-            (character.body as Phaser.Physics.Arcade.Body).setVelocityX(this.velocity);
             this.lastTime = this.scene.time.now / 1000;
             this.started = true;
         }
         if (this.remainingTimeInSeconds > 0) {
             this.currentTime = this.scene.time.now / 1000;
             const elapsedTime = this.currentTime - this.lastTime;
+            character.x += this.velocity * elapsedTime;
             this.remainingTimeInSeconds -= elapsedTime;
             this.lastTime = this.currentTime;
         } else {
-            (character.body as Phaser.Physics.Arcade.Body).setVelocityX(0);
             character.stop();
             this.finished = true;
         }

@@ -13,12 +13,12 @@ export class ObjectivesManager {
     create(jsonLevelData: any) {
         this.objectives = jsonLevelData.objectives;
         this.mainObjectiveText = this.scene.add.text(25, 10, 'Objective: ' + this.objectives.mainObjective.text, {
-            font: '18px ' + this.scene.customConfigurations.ui.fontFamily,
+            font: '24px ' + this.scene.customConfigurations.ui.fontFamily,
             color: '#000000'
         });
         if (this.objectives.secondaryObjective != null) {
             this.secondaryObjectiveText = this.scene.add.text(25, 30, 'Secondary objective: ' + this.objectives.secondaryObjective.text, {
-                font: '18px ' + this.scene.customConfigurations.ui.fontFamily,
+                font: '24px ' + this.scene.customConfigurations.ui.fontFamily,
                 color: '#000000'
             });
         }

@@ -10,7 +10,8 @@ export class Pick extends Action {
     update(character: any) {
         if (!this.started) {
             this.animation = character.play('pick');
-            character.once('animationcomplete', () => {
+            // Pick animation: 8 frames at 24 fps = 8/24 = 0.333 seconds
+            this.scene.time.delayedCall(333, () => {
                 character.stop();
                 this.finished = true;
             });

@@ -14,7 +14,6 @@ export class TimelineManager {
     actionsBar!: Phaser.GameObjects.Sprite;
     actionsBarText!: Phaser.GameObjects.Text;
     timelineBar!: Phaser.GameObjects.Sprite;
-    timelineCharacterIcon!: Phaser.GameObjects.Sprite;
     timeline!: Timeline;
 
     constructor(scene: LevelScene) {
@@ -38,26 +37,26 @@ export class TimelineManager {
         this.actionsNames.push('actionClimb');
         this.actionsNames.push('actionPick');
         this.scene.load.image('timelineBar', 'assets/level/ui/timelineBar.png');
-        this.scene.load.image('timelineCharacterIcon', 'assets/level/ui/timelineCharacterIcon.png');
     }
 
-    create(actionsBarY: number) {
-        this.actionsBar = this.scene.add.sprite(0, actionsBarY, 'actionsBar').setOrigin(0, 0);
+    create(backgroundHeightY: number) {
+        this.timelineBar = this.scene.add.sprite(0, backgroundHeightY, 'timelineBar').setOrigin(0, 0);
+
+        this.actionsBar = this.scene.add.sprite(0, this.timelineBar.y + this.timelineBar.height, 'actionsBar').setOrigin(0, 0);
         this.scene.physics.add.existing(this.actionsBar);
         (this.actionsBar.body as Phaser.Physics.Arcade.Body).setImmovable(true);
-        this.actionsBarText = this.scene.add.text(20, this.actionsBar.y + this.actionsBar.height / 2, 'Actions', {
-            font: '38px ' + this.scene.customConfigurations.ui.fontFamily, color: '#4d2600'
+        this.actionsBarText = this.scene.add.text(20, this.actionsBar.y + this.actionsBar.height / 2, '⬆️ Drag & drop above ⬆️', {
+            font: '32px ' + this.scene.customConfigurations.ui.fontFamily, color: '#4d2600'
         }).setOrigin(0, 0.5);
-        const actionsWidth = 70.0;
-        const actionsSpacing = 5;
-        const actionsStartingX = this.actionsBarText.x + this.actionsBarText.width + actionsWidth / 2 + actionsSpacing;
-        const actionsY = this.actionsBar.y + this.actionsBar.height / 2;
-        this.timelineBar = this.scene.add.sprite(0, this.actionsBar.y + this.actionsBar.height, 'timelineBar').setOrigin(0, 0);
-        this.timelineCharacterIcon = this.scene.add.sprite(80, this.timelineBar.y + this.timelineBar.height / 2, 'timelineCharacterIcon');
-        this.timelineCharacterIcon.setOrigin(0.5, 0.5);
-        this.timeline = new Timeline(this.scene, this.timelineBar.y + (this.timelineBar.height / 2));
+
+        const modelActionsWidth = 60;
+        const modelActionsSpacing = 40;
+        const modelActionsStartingX = this.actionsBarText.x + this.actionsBarText.width + modelActionsWidth / 2 + modelActionsSpacing;
+        const modelActionsY = this.actionsBar.y + this.actionsBar.height / 2;
+
+        this.timeline = new Timeline(this.scene, this.timelineBar.y + (this.timelineBar.height / 2) + (modelActionsWidth / 2));
         for (let i = 0; i < this.actionsNames.length; i++) {
-            const action = this.createAction(this.actionsNames[i], actionsStartingX + (actionsWidth + actionsSpacing) * i, actionsY, true);
+            const action = this.createAction(this.actionsNames[i], modelActionsStartingX + (modelActionsWidth + modelActionsSpacing) * i, modelActionsY, true);
             this.actions[action.name] = action;
         }
     }
@@ -131,6 +130,5 @@ export class TimelineManager {
         this.actionsNames = [];
         this.actions = {};
         this.scene.resourceUtil.cleanUp(this.timelineBar);
-        this.scene.resourceUtil.cleanUp(this.timelineCharacterIcon);
     }
 }
