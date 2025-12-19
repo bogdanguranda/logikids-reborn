@@ -17,10 +17,10 @@ const phasermsg = () => {
 }
 
 export default defineConfig({
-    base: '/coding/bachelors-thesis/play/',
+    base: '/games/logikids/',
     logLevel: 'warning',
     define: {
-        __ASSETS_BASE_PATH__: JSON.stringify('/assets/coding/bachelors-thesis/play/assets/')
+        __ASSETS_BASE_PATH__: JSON.stringify('/assets/games/logikids/assets/')
     },
     build: {
         rollupOptions: {
